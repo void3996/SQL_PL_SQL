@@ -90,3 +90,83 @@ ACCOUNTING                   , It's deptno :                                10
 RESEARCH                     , It's deptno :                                20
 SALES                        , It's deptno :                                30
 OPERATIONS                   , It's deptno :                                40
+
+4. 컬럼 별칭 사용하여 출력
+
+TESTDB>SELECT profno , name, pay FROM professor;
+
+    PROFNO NAME                                            PAY
+---------- ---------------------------------------- ----------
+      1001 Audie Murphy                                    550
+      1002 Angela Bassett                                  380
+      1003 Jessica Lange                                   270
+      2001 Winona Ryder                                    250
+      2002 Michelle Pfeiffer                               350
+      2003 Whoopi Goldberg                                 490
+      3001 Emma Thompson                                   530
+      3002 Julia Roberts                                   330
+      3003 Sharon Stone                                    290
+      4001 Meryl Streep                                    570
+      4002 Susan Sarandon                                  330
+      4003 Nicole Kidman                                   310
+      4004 Holly Hunter                                    260
+      4005 Meg Ryan                                        500
+      4006 Andie Macdowell                                 220
+      4007 Jodie Foster                                    290
+
+16 rows selected.
+
+TESTDB>SELECT profno "Prof'NO", name AS "Prof's NAME" , pay Prof_Pay FROM professor;
+
+   Prof'NO Prof's NAME                                PROF_PAY
+---------- ---------------------------------------- ----------
+      1001 Audie Murphy                                    550
+      1002 Angela Bassett                                  380
+      1003 Jessica Lange                                   270
+      2001 Winona Ryder                                    250
+      2002 Michelle Pfeiffer                               350
+      2003 Whoopi Goldberg                                 490
+      3001 Emma Thompson                                   530
+      3002 Julia Roberts                                   330
+      3003 Sharon Stone                                    290
+      4001 Meryl Streep                                    570
+      4002 Susan Sarandon                                  330
+      4003 Nicole Kidman                                   310
+      4004 Holly Hunter                                    260
+      4005 Meg Ryan                                        500
+      4006 Andie Macdowell                                 220
+      4007 Jodie Foster                                    290
+
+16 rows selected.
+
+5. DISTINCT 명령어로 중복된 값을 제거하고 출력하기
+
+TESTDB>SELECT deptno FROM emp;
+
+    DEPTNO
+----------
+        20
+        30
+        30
+        20
+        30
+        30
+        10
+        20
+        10
+        30
+        30
+        20
+        10
+
+13 rows selected.
+
+- 중복 값 제거 후 출력
+TESTDB>SELECT DISTINCT deptno FROM emp;
+
+    DEPTNO
+----------
+        30
+        20
+        10
+
