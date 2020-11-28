@@ -140,6 +140,8 @@ TESTDB>SELECT profno "Prof'NO", name AS "Prof's NAME" , pay Prof_Pay FROM profes
 16 rows selected.
 
 5. DISTINCT 명령어로 중복된 값을 제거하고 출력하기
+-DISTINCT 는 반드시 SELECT 뒤에 
+-DISTINCT 는 1개의 컬럼에 적어도 모든 컬럼에 적용
 
 TESTDB>SELECT deptno FROM emp;
 
@@ -169,4 +171,192 @@ TESTDB>SELECT DISTINCT deptno FROM emp;
         30
         20
         10
+
+TESTDB>SELECT job, ename FROM emp ORDER BY 1, 2;
+
+JOB                ENAME
+------------------ --------
+ANALYST            FORD
+ANALYST            SCOTT
+CLERK              JAMES
+CLERK              MILLER
+CLERK              SMITH
+MANAGER            BLAKE
+MANAGER            CLARK
+MANAGER            JONES
+PRESIDENT          KING
+SALESMAN           ALLEN
+SALESMAN           MARTIN
+SALESMAN           TURNER
+SALESMAN           WARD
+
+13 rows selected.
+
+SQL> SELECT DISTINCT job, ename
+  2  FROM emp
+  3  ORDER BY 1, 2 ;
+
+JOB                ENAME
+------------------ --------------------
+ANALYST            FORD
+ANALYST            SCOTT
+CLERK              JAMES
+CLERK              MILLER
+CLERK              SMITH
+MANAGER            BLAKE
+MANAGER            CLARK
+MANAGER            JONES
+PRESIDENT          KING
+SALESMAN           ALLEN
+SALESMAN           MARTIN
+
+JOB                ENAME
+------------------ --------------------
+SALESMAN           TURNER
+SALESMAN           WARD
+
+13 rows selected.
+
+6. 연결 연산자로 컬럼 붙여서 출력
+-연결 연산자 ||
+
+SQL> SELECT ename , job
+  2  FROM emp;
+
+ENAME    JOB
+-------- ------------------
+SMITH    CLERK
+ALLEN    SALESMAN
+WARD     SALESMAN
+JONES    MANAGER
+MARTIN   SALESMAN
+BLAKE    MANAGER
+CLARK    MANAGER
+SCOTT    ANALYST
+KING     PRESIDENT
+TURNER   SALESMAN
+JAMES    CLERK
+FORD     ANALYST
+MILLER   CLERK
+
+13 rows selected.
+
+SQL> SELECT ename || job FROM emp;
+
+ENAME||JOB
+--------------------------------------
+SMITHCLERK
+ALLENSALESMAN
+WARDSALESMAN
+JONESMANAGER
+MARTINSALESMAN
+BLAKEMANAGER
+CLARKMANAGER
+SCOTTANALYST
+KINGPRESIDENT
+TURNERSALESMAN
+JAMESCLERK
+FORDANALYST
+MILLERCLERK
+
+13 rows selected.
+
+TESTDB>SELECT ename||' ''s job is '|| job "NAME AND JOB"
+  2  FROM emp;
+
+NAME AND JOB
+------------------------------------------------------------
+SMITH 's job is CLERK
+ALLEN 's job is SALESMAN
+WARD 's job is SALESMAN
+JONES 's job is MANAGER
+MARTIN 's job is SALESMAN
+BLAKE 's job is MANAGER
+CLARK 's job is MANAGER
+SCOTT 's job is ANALYST
+KING 's job is PRESIDENT
+TURNER 's job is SALESMAN
+JAMES 's job is CLERK
+FORD 's job is ANALYST
+MILLER 's job is CLERK
+
+13 rows selected.
+
+practice 1
+
+Student 테이블에서 모든 학생의 이름과 ID, 체중을 출력
+컬럼 이름은 "ID AND WEIGHT"
+
+TESTDB>select name||' ''s ID: '||id||' is '|| weight "ID AND WEIGHT" from student;
+
+ID AND WEIGHT
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+James Seo 's ID: 75true is 72
+Rene Russo 's ID: Russo is 64
+Sandra Bullock 's ID: Bullock is 52
+Demi Moore 's ID: Moore is 83
+Danny Glover 's ID: Glover is 70
+Billy Crystal 's ID: Crystal is 48
+Nicholas Cage 's ID: Cage is 42
+Micheal Keaton 's ID: Keaton is 55
+Bill Murray 's ID: Murray is 58
+Macaulay Culkin 's ID: Culkin is 54
+Richard Dreyfus 's ID: Dreyfus is 72
+Tim Robbins 's ID: Robbins is 70
+Wesley Snipes 's ID: Snipes is 82
+Steve Martin 's ID: Martin is 51
+Daniel Day-Lewis 's ID: Day-Lewis is 62
+Danny Devito 's ID: Devito is 48
+Sean Connery 's ID: Connery is 63
+Christian Slater 's ID: Slater is 69
+Charlie Sheen 's ID: Sheen is 81
+Anthony Hopkins 's ID: Hopkins is 51
+
+20 rows selected.
+
+practice 2
+emp 테이블을 조회하여 모든 사람의 이름과 직업을 출력
+
+TESTDB>select ename||'('||job||')'|| ' , '||ename||''''||job||'''' "NAME AND JOB" from emp;
+
+NAME AND JOB
+------------------------------------------------------------------------------------------
+SMITH(CLERK) , SMITH'CLERK'
+ALLEN(SALESMAN) , ALLEN'SALESMAN'
+WARD(SALESMAN) , WARD'SALESMAN'
+JONES(MANAGER) , JONES'MANAGER'
+MARTIN(SALESMAN) , MARTIN'SALESMAN'
+BLAKE(MANAGER) , BLAKE'MANAGER'
+CLARK(MANAGER) , CLARK'MANAGER'
+SCOTT(ANALYST) , SCOTT'ANALYST'
+KING(PRESIDENT) , KING'PRESIDENT'
+TURNER(SALESMAN) , TURNER'SALESMAN'
+JAMES(CLERK) , JAMES'CLERK'
+FORD(ANALYST) , FORD'ANALYST'
+MILLER(CLERK) , MILLER'CLERK'
+
+13 rows selected.
+
+practice 3
+emp 테이블을 조회하여 모든 사원의 이름과 급여를 출력
+
+TESTDB>select ename||'''s sal is $'|| sal "Name and Sal" from emp;
+
+Name and Sal
+--------------------------------------------------------------------------------------------------------------------------
+SMITH's sal is $800
+ALLEN's sal is $1600
+WARD's sal is $1250
+JONES's sal is $2975
+MARTIN's sal is $1250
+BLAKE's sal is $2850
+CLARK's sal is $2450
+SCOTT's sal is $3000
+KING's sal is $5000
+TURNER's sal is $1500
+JAMES's sal is $950
+FORD's sal is $3000
+MILLER's sal is $1300
+
+13 rows selected.
 
