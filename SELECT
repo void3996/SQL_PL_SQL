@@ -360,3 +360,285 @@ MILLER's sal is $1300
 
 13 rows selected.
 
+7. 원하는 조건만 골라내기 WHERE 사용
+
+문법
+
+SELECT [Columb or Expression]
+FROM [Table or View]
+WHERE 원하는조건 ;
+
+SQL> SET sqlprompt "_USER>"
+TESTDB>SELECT empno, ename
+  2  FROM emp
+  3  WHERE empno = 7900;
+
+     EMPNO ENAME
+---------- --------------------
+      7900 JAMES
+      
+TESTDB>SELECT ename, sal
+  2  FROM emp
+  3  WHERE sal < 1000;
+
+ENAME                       SAL
+-------------------- ----------
+SMITH                       800
+JAMES                       950
+
+TESTDB>SELECT empno, ename, sal
+  2  FROM emp
+  3  WHERE ename='SMITH';
+
+     EMPNO ENAME                       SAL
+---------- -------------------- ----------
+      7369 SMITH                       800
+      
+-문자 조회할때 작은따음표와 대소문자 구분
+
+TESTDB>SELECT ename, hiredate
+  2  FROM emp
+  3  WHERE ename = 'SMITH';
+
+ENAME                HIREDATE
+-------------------- --------
+SMITH                80/12/17
+
+TESTDB>SELECT empno, ename, sal
+  2  FROM emp
+  3  WHERE hiredate = '80/12/17';
+
+     EMPNO ENAME                       SAL
+---------- -------------------- ----------
+      7369 SMITH                       800
+      
+-검색조건을 쓸 때
+-숫자 외에는 꼭 작은따옴표를 사용
+-문자는 대소문자 구분, 날짜는 대소문자 구분 없다(리눅스는 월이 영어로 표기)
+
+8. SQL에서 기본 산술 연산자 사용
+
+TESTDB>SELECT ename, sal
+  2  FROM emp
+  3  WHERE deptno = 10;
+
+ENAME                       SAL
+-------------------- ----------
+CLARK                      2450
+KING                       5000
+MILLER                     1300
+
+TESTDB>SELECT ename, sal, sal*100
+  2  FROM emp
+  3  WHERE deptno = 10;
+
+ENAME                       SAL    SAL*100
+-------------------- ---------- ----------
+CLARK                      2450     245000
+KING                       5000     500000
+MILLER                     1300     130000
+
+TESTDB>SELECT ename, sal, sal*1.1
+  2  FROM emp
+  3  WHERE deptno = 10;
+
+ENAME                       SAL    SAL*1.1
+-------------------- ---------- ----------
+CLARK                      2450       2695
+KING                       5000       5500
+MILLER                     1300       1430
+
+9. 다양한 연산자를 활용하는 방법
+
+http://www.dbguide.net/publishing/img/knowledge/SQL_172.jpg
+
+- 비교 연산자 사용
+
+TESTDB>SELECT empno, ename, sal
+  2  FROM emp
+  3  WHERE sal >= 4000;
+
+     EMPNO ENAME                       SAL
+---------- -------------------- ----------
+      7839 KING                       5000
+
+- 문자 'W' 보다 크거나 같은 ename을 찾아서 출력
+TESTDB>SELECT empno, ename, sal
+  2  FROM emp
+  3  WHERE ename >= 'W';
+
+     EMPNO ENAME                       SAL
+---------- -------------------- ----------
+      7521 WARD                       1250
+ 
+ TESTDB>SELECT ename, hiredate
+  2  FROM emp;
+
+ENAME                HIREDATE
+-------------------- --------
+SMITH                80/12/17
+ALLEN                81/02/20
+WARD                 81/02/22
+JONES                81/04/02
+MARTIN               81/09/28
+BLAKE                81/05/01
+CLARK                81/06/09
+SCOTT                82/12/09
+KING                 81/11/17
+TURNER               81/09/08
+JAMES                81/12/03
+
+ENAME                HIREDATE
+-------------------- --------
+FORD                 81/12/03
+MILLER               82/01/23
+
+13 rows selected.
+
+-hiredate '81/12/25' 보다 크거나 같은 사람 출력
+-날짜가 크다는 의미는 최신날짜를 의미한다
+TESTDB>SELECT ename, hiredate
+  2  FROM emp
+  3  WHERE hiredate >= '81/12/25';
+
+ENAME                HIREDATE
+-------------------- --------
+SCOTT                82/12/09
+MILLER               82/01/23
+
+-BETWEEN 연산자로 구간 데이터 조회하기
+ 1. 작은 값을 앞에, 큰값을 뒤에
+ 2. 두 값을 모두 포함하는 결과를 출력한다
+TESTDB>SELECT empno, ename, sal
+  2  FROM emp
+  3  WHERE sal BETWEEN 2000 AND 3000;
+
+     EMPNO ENAME                       SAL
+---------- -------------------- ----------
+      7566 JONES                      2975
+      7698 BLAKE                      2850
+      7782 CLARK                      2450
+      7788 SCOTT                      3000
+      7902 FORD                       3000
+
+-속도면에서는 이 방법이 더 빠르다
+TESTDB>SELECT empno, ename, sal
+  2  FROM emp
+  3  WHERE sal >= 2000
+  4  AND sal <=3000;
+
+     EMPNO ENAME                       SAL
+---------- -------------------- ----------
+      7566 JONES                      2975
+      7698 BLAKE                      2850
+      7782 CLARK                      2450
+      7788 SCOTT                      3000
+      7902 FORD                       3000
+      
+TESTDB>SELECT ename FROM emp
+  2  ORDER BY ename;
+
+ENAME
+--------------------
+ALLEN
+BLAKE
+CLARK
+FORD
+JAMES
+JONES
+KING
+MARTIN
+MILLER
+SCOTT
+SMITH
+TURNER
+WARD
+
+13 rows selected.
+
+TESTDB>SELECT ename
+  2  FROM emp
+  3  WHERE ename BETWEEN 'JAMES' AND 'MARTIN'
+  4  ORDER BY ename;
+
+ENAME
+--------------------
+JAMES
+JONES
+KING
+MARTIN
+
+-IN 연산자로 여러 조건을 간편하게 검색
+
+TESTDB>SELECT empno, ename, deptno
+  2  FROM emp
+  3  WHERE deptno IN(10,20);
+
+     EMPNO ENAME                    DEPTNO
+---------- -------------------- ----------
+      7369 SMITH                        20
+      7566 JONES                        20
+      7782 CLARK                        10
+      7788 SCOTT                        20
+      7839 KING                         10
+      7902 FORD                         20
+      7934 MILLER                       10
+
+7 rows selected.
+
+-LIKE 연산자로 비슷한 것들 모두 찾기
+-LIKE와 함께 사용되는 기호 '%' '_'
+-%: 글자 수에 제한이 없고(0개 포함) 어떤 글자가 와도 상관 없다
+-_(Underscore): 글자 수는 한 글자만 올 수 있고 어떤 글자가 와도 상관없다
+
+TESTDB>SELECT empno, ename, sal
+  2  FROM emp
+  3  WHERE sal LIKE '1%';
+
+     EMPNO ENAME                       SAL
+---------- -------------------- ----------
+      7499 ALLEN                      1600
+      7521 WARD                       1250
+      7654 MARTIN                     1250
+      7844 TURNER                     1500
+      7934 MILLER                     1300
+      
+TESTDB>SELECT empno, ename, sal
+  2  FROM emp
+  3  WHERE ename LIKE 'A%';
+
+     EMPNO ENAME                       SAL
+---------- -------------------- ----------
+      7499 ALLEN                      1600
+      
+TESTDB>SELECT empno, ename, hiredate
+  2  FROM emp
+  3  WHERE hiredate LIKE '___12%';
+
+     EMPNO ENAME                HIREDATE
+---------- -------------------- --------
+      7369 SMITH                80/12/17
+      7788 SCOTT                82/12/09
+      7900 JAMES                81/12/03
+      7902 FORD                 81/12/03
+      
+- 값이 무엇인지 모를 경우 - IS NULL /IS NOT NULL 연산자 활용
+- 아래 COMM에 값이 없는 것이 NULL
+TESTDB>SELECT empno, ename, comm
+  2  FROM emp
+  3  WHERE deptno IN(20, 30);
+
+     EMPNO ENAME                      COMM
+---------- -------------------- ----------
+      7369 SMITH
+      7499 ALLEN                       300
+      7521 WARD                        500
+      7566 JONES
+      7654 MARTIN                     1400
+      7698 BLAKE
+      7788 SCOTT
+      7844 TURNER                        0
+      7900 JAMES
+      7902 FORD
+
+10 rows selected.
