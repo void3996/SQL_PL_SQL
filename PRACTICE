@@ -1,0 +1,77 @@
+practice 1
+
+Student 테이블에서 모든 학생의 이름과 ID, 체중을 출력
+컬럼 이름은 "ID AND WEIGHT"
+
+TESTDB>select name||' ''s ID: '||id||' is '|| weight "ID AND WEIGHT" from student;
+
+ID AND WEIGHT
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+James Seo 's ID: 75true is 72
+Rene Russo 's ID: Russo is 64
+Sandra Bullock 's ID: Bullock is 52
+Demi Moore 's ID: Moore is 83
+Danny Glover 's ID: Glover is 70
+Billy Crystal 's ID: Crystal is 48
+Nicholas Cage 's ID: Cage is 42
+Micheal Keaton 's ID: Keaton is 55
+Bill Murray 's ID: Murray is 58
+Macaulay Culkin 's ID: Culkin is 54
+Richard Dreyfus 's ID: Dreyfus is 72
+Tim Robbins 's ID: Robbins is 70
+Wesley Snipes 's ID: Snipes is 82
+Steve Martin 's ID: Martin is 51
+Daniel Day-Lewis 's ID: Day-Lewis is 62
+Danny Devito 's ID: Devito is 48
+Sean Connery 's ID: Connery is 63
+Christian Slater 's ID: Slater is 69
+Charlie Sheen 's ID: Sheen is 81
+Anthony Hopkins 's ID: Hopkins is 51
+
+20 rows selected.
+
+practice 2
+emp 테이블을 조회하여 모든 사람의 이름과 직업을 출력
+
+TESTDB>select ename||'('||job||')'|| ' , '||ename||''''||job||'''' "NAME AND JOB" from emp;
+
+NAME AND JOB
+------------------------------------------------------------------------------------------
+SMITH(CLERK) , SMITH'CLERK'
+ALLEN(SALESMAN) , ALLEN'SALESMAN'
+WARD(SALESMAN) , WARD'SALESMAN'
+JONES(MANAGER) , JONES'MANAGER'
+MARTIN(SALESMAN) , MARTIN'SALESMAN'
+BLAKE(MANAGER) , BLAKE'MANAGER'
+CLARK(MANAGER) , CLARK'MANAGER'
+SCOTT(ANALYST) , SCOTT'ANALYST'
+KING(PRESIDENT) , KING'PRESIDENT'
+TURNER(SALESMAN) , TURNER'SALESMAN'
+JAMES(CLERK) , JAMES'CLERK'
+FORD(ANALYST) , FORD'ANALYST'
+MILLER(CLERK) , MILLER'CLERK'
+
+13 rows selected.
+
+practice 3
+emp 테이블을 조회하여 모든 사원의 이름과 급여를 출력
+
+TESTDB>select ename||'''s sal is $'|| sal "Name and Sal" from emp;
+
+Name and Sal
+--------------------------------------------------------------------------------------------------------------------------
+SMITH's sal is $800
+ALLEN's sal is $1600
+WARD's sal is $1250
+JONES's sal is $2975
+MARTIN's sal is $1250
+BLAKE's sal is $2850
+CLARK's sal is $2450
+SCOTT's sal is $3000
+KING's sal is $5000
+TURNER's sal is $1500
+JAMES's sal is $950
+FORD's sal is $3000
+MILLER's sal is $1300
+
+13 rows selected.
