@@ -642,3 +642,359 @@ TESTDB>SELECT empno, ename, comm
       7902 FORD
 
 10 rows selected.
+
+TESTDB>SELECT empno, ename, comm
+  2  FROM emp
+  3  WHERE comm IS NULL;
+
+     EMPNO ENAME                      COMM
+---------- -------------------- ----------
+      7369 SMITH
+      7566 JONES
+      7698 BLAKE
+      7782 CLARK
+      7788 SCOTT
+      7839 KING
+      7900 JAMES
+      7902 FORD
+      7934 MILLER
+
+9 rows selected.
+
+TESTDB>SELECT empno, ename, comm
+  2  FROM emp
+  3  WHERE comm IS NOT NULL;
+
+     EMPNO ENAME                      COMM
+---------- -------------------- ----------
+      7499 ALLEN                       300
+      7521 WARD                        500
+      7654 MARTIN                     1400
+      7844 TURNER                        0
+      
+- 검색 조건이 두 개 이상일 경우 조회하기
+
+TESTDB>SELECT ename, hiredate, sal
+  2  FROM emp
+  3  WHERE hiredate > '82/01/01'
+  4  AND sal >= 1300;
+
+ENAME                HIREDATE        SAL
+-------------------- -------- ----------
+SCOTT                82/12/09       3000
+MILLER               82/01/23       1300
+
+TESTDB>SELECT ename, hiredate, sal
+  2  FROM emp
+  3  WHERE hiredate > '82/01/01'
+  4  OR sal >= 1300;
+
+ENAME                HIREDATE        SAL
+-------------------- -------- ----------
+ALLEN                81/02/20       1600
+JONES                81/04/02       2975
+BLAKE                81/05/01       2850
+CLARK                81/06/09       2450
+SCOTT                82/12/09       3000
+KING                 81/11/17       5000
+TURNER               81/09/08       1500
+FORD                 81/12/03       3000
+MILLER               82/01/23       1300
+
+9 rows selected.
+
+-emp 테이블에서 sal이 100보다 큰 사람 중에서 comm이 100보다 작거나 또는 NULL인 사람을 출력
+TESTDB>SELECT empno, ename, sal, comm
+  2  FROM emp
+  3  WHERE sal > 1000
+  4  AND (comm < 1000 OR comm IS NULL);
+
+     EMPNO ENAME                       SAL       COMM
+---------- -------------------- ---------- ----------
+      7499 ALLEN                      1600        300
+      7521 WARD                       1250        500
+      7566 JONES                      2975
+      7698 BLAKE                      2850
+      7782 CLARK                      2450
+      7788 SCOTT                      3000
+      7839 KING                       5000
+      7844 TURNER                     1500          0
+      7902 FORD                       3000
+      7934 MILLER                     1300
+
+10 rows selected.
+
+- AND와 OR이 동시에 나오는 조건일 경우 항상 AND가 먼저 수행된 후에 OR이 수행된다
+TESTDB>SELECT empno, ename, sal, comm
+  2  FROM emp
+  3  WHERE sal > 1000
+  4  AND comm < 1000 OR comm IS NULL;
+
+     EMPNO ENAME                       SAL       COMM
+---------- -------------------- ---------- ----------
+      7369 SMITH                       800
+      7499 ALLEN                      1600        300
+      7521 WARD                       1250        500
+      7566 JONES                      2975
+      7698 BLAKE                      2850
+      7782 CLARK                      2450
+      7788 SCOTT                      3000
+      7839 KING                       5000
+      7844 TURNER                     1500          0
+      7900 JAMES                       950
+      7902 FORD                       3000
+      7934 MILLER                     1300
+
+12 rows selected.
+
+- 사용자에게 조건을 입력받아서 조건에 맞는 값 출력
+- &(엠퍼센트) 기호는 사용자에게 값을 입력받으라는 뜻
+
+TESTDB>SELECT empno, ename, sal
+  2  FROM emp
+  3  WHERE empno = &empno;
+Enter value for empno: 7902
+old   3: WHERE empno = &empno
+new   3: WHERE empno = 7902
+
+     EMPNO ENAME                       SAL
+---------- -------------------- ----------
+      7902 FORD                       3000
+
+TESTDB>SET verify OFF
+TESTDB>SELECT empno, ename, sal
+  2  FROM emp
+  3  WHERE empno = &empno;
+Enter value for empno: 7902
+
+     EMPNO ENAME                       SAL
+---------- -------------------- ----------
+      7902 FORD                       3000
+      
+TESTDB>SELECT empno, ename
+  2  FROM &table
+  3  WHERE sal = 3000;
+Enter value for table: emp
+
+     EMPNO ENAME
+---------- --------------------
+      7788 SCOTT
+      7902 FORD
+      
+10. 정렬하여 출력하기 - ORDER BY 사용
+
+TESTDB>SELECT ename, sal, hiredate
+  2  FROM emp;
+
+ENAME                       SAL HIREDATE
+-------------------- ---------- --------
+SMITH                       800 80/12/17
+ALLEN                      1600 81/02/20
+WARD                       1250 81/02/22
+JONES                      2975 81/04/02
+MARTIN                     1250 81/09/28
+BLAKE                      2850 81/05/01
+CLARK                      2450 81/06/09
+SCOTT                      3000 82/12/09
+KING                       5000 81/11/17
+TURNER                     1500 81/09/08
+JAMES                       950 81/12/03
+FORD                       3000 81/12/03
+MILLER                     1300 82/01/23
+
+13 rows selected.
+
+- ename 으로 오름차순 정렬
+TESTDB>SELECT ename, sal, hiredate
+  2  FROM emp
+  3  ORDER BY ename;
+
+ENAME                       SAL HIREDATE
+-------------------- ---------- --------
+ALLEN                      1600 81/02/20
+BLAKE                      2850 81/05/01
+CLARK                      2450 81/06/09
+FORD                       3000 81/12/03
+JAMES                       950 81/12/03
+JONES                      2975 81/04/02
+KING                       5000 81/11/17
+MARTIN                     1250 81/09/28
+MILLER                     1300 82/01/23
+SCOTT                      3000 82/12/09
+SMITH                       800 80/12/17
+TURNER                     1500 81/09/08
+WARD                       1250 81/02/22
+
+13 rows selected.
+
+TESTDB>SELECT deptno, sal, ename
+  2  FROM emp
+  3  ORDER BY deptno ASC, sal DESC;
+
+    DEPTNO        SAL ENAME
+---------- ---------- --------------------
+        10       5000 KING
+        10       2450 CLARK
+        10       1300 MILLER
+        20       3000 SCOTT
+        20       3000 FORD
+        20       2975 JONES
+        20        800 SMITH
+        30       2850 BLAKE
+        30       1600 ALLEN
+        30       1500 TURNER
+        30       1250 WARD
+        30       1250 MARTIN
+        30        950 JAMES
+
+13 rows selected.
+
+- ORDER BY 2, 1 숫자의 의미는 SELECT 절에 오는 컬럼의 순서를 뜻한다
+- 2란 sal를 뜻하고 1은 ename을 뜻한다
+- sal 로 먼저 정렬하고 동일한 sal 값이 있을 경우 ename으로 한 번 더 정렬하라는 의미이다
+TESTDB>SELECT ename, sal, hiredate
+  2  FROM emp
+  3  WHERE sal > 1000
+  4  ORDER BY 2, 1;
+
+ENAME                       SAL HIREDATE
+-------------------- ---------- --------
+MARTIN                     1250 81/09/28
+WARD                       1250 81/02/22
+MILLER                     1300 82/01/23
+TURNER                     1500 81/09/08
+ALLEN                      1600 81/02/20
+CLARK                      2450 81/06/09
+BLAKE                      2850 81/05/01
+JONES                      2975 81/04/02
+FORD                       3000 81/12/03
+SCOTT                      3000 82/12/09
+KING                       5000 81/11/17
+
+11 rows selected.
+
+11. 집합 연산자
+
+- UNION : 두 집합의 결과를 합쳐서 출력. 중복 값 제거하고 정렬함
+- UNION ALL : 두 집합의 결괄르 합쳐서 출력. 중복 값 제거 안하고 정렬 안함
+- INTERSERT : 두 집합의 교집합 결과를 출력 및 정렬함
+- MINUS : 두 집합의 차집합 결과를 출력 및 정렬함. 쿼리의 순서가 중요함
+
+- 집합 연산자 주의사항
+ 1. 두 집합의 SELECT 절에 오는 컬럼의 개수가 동일해야 한다
+ 2. 두 집합의 SELECT 절에 오는 컬럼의 데이터 형이 동일해야 한다.
+ 3. 두 집합의 컬럼명은 달라도 상관 없다
+ 
+- UNION / UNION ALL(두 집합의 결과들을 더한다)
+
+TESTDB>SELECT studno, name , deptno1, 1
+  2  FROM student
+  3  WHERE deptno1 = 101
+  4  UNION
+  5  SELECT profno, name, deptno, 2
+  6  FROM professor
+  7  WHERE deptno = 101;
+
+    STUDNO NAME                                                            DEPTNO1          1
+---------- ------------------------------------------------------------ ---------- ----------
+      1001 Audie Murphy                                                        101          2
+      1002 Angela Bassett                                                      101          2
+      1003 Jessica Lange                                                       101          2
+      9411 James Seo                                                           101          1
+      9511 Billy Crystal                                                       101          1
+      9611 Richard Dreyfus                                                     101          1
+      9711 Danny Devito                                                        101          1
+
+7 rows selected.
+
+TESTDB>SELECT studno, name, deptno1, 1
+  2  FROM student
+  3  WHERE deptno1 = 101
+  4  UNION ALL
+  5  SELECT profno, name, deptno, 2
+  6  FROM professor
+  7  WHERE deptno = 101;
+
+    STUDNO NAME                                                            DEPTNO1          1
+---------- ------------------------------------------------------------ ---------- ----------
+      9411 James Seo                                                           101          1
+      9511 Billy Crystal                                                       101          1
+      9611 Richard Dreyfus                                                     101          1
+      9711 Danny Devito                                                        101          1
+      1001 Audie Murphy                                                        101          2
+      1002 Angela Bassett                                                      101          2
+      1003 Jessica Lange                                                       101          2
+
+7 rows selected.
+
+TESTDB>SELECT studno, name
+  2  FROM student
+  3  WHERE deptno1 = 101
+  4  UNION
+  5  SELECT studno, name
+  6  FROM student
+  7  WHERE deptno2 = 201;
+
+    STUDNO NAME
+---------- ------------------------------------------------------------
+      9411 James Seo
+      9511 Billy Crystal
+      9512 Nicholas Cage
+      9611 Richard Dreyfus
+      9711 Danny Devito
+      
+TESTDB>SELECT studno, name
+  2  FROM student
+  3  WHERE deptno1 = 101
+  4  UNION ALL
+  5  SELECT studno, name
+  6  FROM student
+  7  WHERE deptno2 = 201;
+
+    STUDNO NAME
+---------- ------------------------------------------------------------
+      9411 James Seo
+      9511 Billy Crystal
+      9611 Richard Dreyfus
+      9711 Danny Devito
+      9411 James Seo
+      9512 Nicholas Cage
+
+6 rows selected.
+
+- INTERSECT 연산자 사용
+
+TESTDB>SELECT studno, name
+  2  FROM student
+  3  WHERE deptno1 = 101
+  4  INTERSECT
+  5  SELECT studno, name
+  6  FROM student
+  7  WHERE deptno2 = 201;
+
+    STUDNO NAME
+---------- ------------------------------------------------------------
+      9411 James Seo
+      
+- MINUS 연산자 사용
+
+- 현재 SAL 2500이하인 사람만을 대상으로 출력
+TESTDB>SELECT empno, ename, sal
+  2  FROM emp
+  3  MINUS
+  4  SELECT empno, ename, sal
+  5  FROM emp
+  6  WHERE sal > 2500;
+
+     EMPNO ENAME                       SAL
+---------- -------------------- ----------
+      7369 SMITH                       800
+      7499 ALLEN                      1600
+      7521 WARD                       1250
+      7654 MARTIN                     1250
+      7782 CLARK                      2450
+      7844 TURNER                     1500
+      7900 JAMES                       950
+      7934 MILLER                     1300
+
+8 rows selected.
