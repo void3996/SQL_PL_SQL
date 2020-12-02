@@ -1,0 +1,211 @@
+1. 문자 함수
+
+1. 대소문자 변환함수
+
+LOWER(char) 문자열을 소문자로 변환
+
+UPPER(char) 문자열을 대문자로 변환
+
+INITCAP(char) 주어진 문자열의 첫 번째 문자를 대문자로 나머지 문자는 소문자로 변환
+
+
+
+SELECT e_player_name, UPPER(e_player_name), LOWER(e_player_name), INITCAP(e_player_name)
+
+FROM player_t
+
+WHERE player_name LIKE '가%';
+
+ 
+
+
+
+2. 문자열의 일부분만 추출하는 함수
+
+SUBSTR(대상, 추출시작위치, 개수)
+
+ 
+
+SELECT e_player_name, substr(e_player_name,3,4)
+
+FROM PLAYER_T
+
+WHERE player_name LIKE '가%';
+
+
+
+SELECT e_player_name, substr(e_player_name,3)
+
+FROM PLAYER_T
+
+WHERE player_name LIKE '가%';
+
+--e_player_name의 3번째 문자부터 끝까지 모두 가져옴
+
+ 
+
+*substr/substrb와 length/lengthb
+
+SELECT e_player_name, substr(e_player_name,1,4), substrb(e_player_name,1,4)
+
+FROM PLAYER_T
+
+WHERE player_name='가이모토';
+
+--한글인 경우 substr/substrb 함수 적용 결과값이 다름
+
+ 
+
+SELECT e_player_name, length(player_name), lengthb(player_name)
+
+FROM PLAYER_T
+
+WHERE player_name='가이모토';
+
+
+
+ 
+
+3. 특정 자릿수만큼 채워서 표시할 때
+
+LPAD(대상, 확보할 크기, 남은공간 채울 문자), 
+
+RPAD(대상, 확보할 크기, 남은공간 채울 문자)
+
+
+
+SELECT RPAD(sal, 8, '0') 
+
+FROM emp;
+
+
+
+SELECT LPAD(sal, 8, '0') 
+
+FROM emp;
+
+
+
+ 
+
+4. 왼쪽끝/ 오른쪽 끝에 나오는 특정문자(또는 공백) 제거
+
+LTRIM(대상, 제거할 문자)
+
+RTRIM(대상, 제거할 문자)
+
+*제거할 문자가 연속된다면 모두 제거된다.
+
+
+
+SELECT LTRIM(ename, 'A') FROM emp;
+
+SELECT RTRIM(ename, 'T') FROM emp;
+
+
+
+*양쪽 끝에 나오는 지정된 문자 제거 시
+
+SELECT ename, TRIM('T' from ename) 
+
+FROM emp;
+
+
+
+ 
+
+5. 특정 문자열을 다른 문자열로 변경할 때
+
+replace(대상, 찾을 문자열, 변경할 문자열)
+
+
+
+REPLACE(ename, ‘SC’, ‘*?’) from emp;
+
+ 
+
+*비교> select ename, TRANSLATE(ename, ‘SC’, ‘*?’);
+
+
+
+TRANSLATE(ename, ‘SC’, ‘*?’) from emp;
+
+※TRANSLATE는 각각 한글자씩만 대응가능하다.
+
+
+
+ 
+
+6. 지정한 문자가 어느 위치에 나오는지 알려주는 함수
+
+INSTR(대상, 찾을 문자열, 검색시작위치, 횟수)
+
+
+
+SELECT ename, INSTR(ename,'A',1,1)
+
+FROM emp;
+
+    SMITH   --> 0
+
+    ADAMS   --> 1
+
+    WARD    --> 2
+
+ 
+
+SELECT ename, INSTR(ename,'A',1,2)
+
+FROM emp;
+
+    SMITH   --> 0
+
+    ADAMS   --> 3
+
+    WARD    --> 0
+
+ 
+
+player_t 선수 중 이름 1글자, 3글자 아닌 선수들의 이름을 아래 형태로 나오도록 조회하기
+
+(이름첫글자--두번째글자부터 남은글자)
+
+
+
+SELECT SUBSTR(player_name,1,1)||'--'||SUBSTR(player_name,2)
+
+FROM player_t
+
+WHERE length(player_name) NOT IN (1,3);
+
+ 
+
+
+
+7. 특정 문자의 ASCII 코드 값을 반환하는 함수
+
+SELECT ASCII(char) 
+
+FROM dual;
+
+ 
+
+SELECT ASCII('a') 소문자, ASCII('A') 대문자 FROM dual;
+
+
+
+1.1 INITCAP() 함수
+- 영어에서 첫 글자만 대문자로 출력하고 나머지는 전부 소문자로 출력하는 함수
+
+- emp 테이블에서 ename과 첫 글자만 대문자로 바꾼 ename을 출력
+TESTDB>SELECT ename, INITCAP(ename) "INTICAP"
+  2  FROM emp
+  3  WHERE deptno = 10;
+
+ENAME                INTICAP
+-------------------- --------------------
+CLARK                Clark
+KING                 King
+MILLER               Miller
+
+- 공백이 있을경우 공백 다음을 첫 글자로 대문자 출력
