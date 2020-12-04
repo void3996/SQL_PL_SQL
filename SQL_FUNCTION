@@ -272,3 +272,64 @@ MILLER                           6
 
 1.5 CONCAT() 함수(|| 연산자와 동일한 기능)
 - CONCAT('문자열1', '문자열2')
+
+TESTDB> SELECT CONCAT(ename, job)
+  2  FROM emp
+  3  WHERE deptno=10;
+
+CONCAT(ENAME,JOB)
+--------------------------------------
+CLARKMANAGER
+KINGPRESIDENT
+MILLERCLERK
+
+1.6 SUBSTR() 함수
+- SUBSTR('문자열' 또는 컬럼명, 1,4)
+- 주어진 문자열에서 특정 길이의 문자만 골라낼 때 사용하는 함수
+
+TESTDB>SELECT SUBSTR('abcde', 3, 2) "3,2",
+  2           SUBSTR('abcde', -3,2) "-3,2",
+  3           SUBSTR('abcde', -3,4) "-3,4"
+  4  FROM dual;
+
+3,2  -3,2 -3,4
+---- ---- ------
+cd   cd   cde
+
+- Student 테이블에서 jumin 컬럼을 사용해서 1전공이 101번인 학생들의 이름과 태어난 월일, 생일 하루전 날짜를 출력
+TESTDB>SELECT name, SUBSTR(jumin, 3,4) "Birthday",
+  2                     SUBSTR(jumin, 3,4) -1 "Birthday -1"
+  3  FROM student
+  4  WHERE deptno1 = 101;
+
+NAME                                                         Birthday                         Birthday -1
+------------------------------------------------------------ -------------------------------- -----------
+James Seo                                                    1023                                    1022
+Billy Crystal                                                0123                                     122
+Richard Dreyfus                                              1129                                    1128
+Danny Devito                                                 0819                                     818
+
+1.7 SUBSTRB() 함수
+ - SUBSTR 함수와 문법은 동일하며 차이점은 추출할 자릿수가 아니라 추출할 바이트 수를 지정하는 것
+ 
+ 
+TESTDB>SELECT '서진수' "NAME" , SUBSTR('서진수', 1,2) "SUBSTR",
+ 2                             SUBSTRB('서진수', 1,2) "SUBSTRB"
+ 3  FROM dual;
+
+NAME               SUBSTR       SUBS
+------------------ ------------ ----
+서진수             서진
+
+1.8 INSTR() 함수
+ - 주어진 문자열이나 컬럼에서 특정 글자의 위치를 찾아주는 함수
+ - INSTR('문자열' 또는 컬럼, 찾는 글자, 시작 위치, 몇 번째인지(기본값은 1)
+ 
+ - 주어진 문자열에서 첫 번째 문자를 기준으로 3번째 '-(마이너스)' 가 나오는 위치의 값을 출력
+ 
+TESTDB>SELECT 'A-B-C-D' , INSTR('A-B-C-D', '-',1,3) "INSTR"
+  2  FROM dual;
+
+'A-B-C-D'           INSTR
+-------------- ----------
+A-B-C-D                 6
