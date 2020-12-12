@@ -326,7 +326,6 @@ NAME               SUBSTR       SUBS
  - INSTR('문자열' 또는 컬럼, 찾는 글자, 시작 위치, 몇 번째인지(기본값은 1)
  
  - 주어진 문자열에서 첫 번째 문자를 기준으로 3번째 '-(마이너스)' 가 나오는 위치의 값을 출력
- 
 TESTDB>SELECT 'A-B-C-D' , INSTR('A-B-C-D', '-',1,3) "INSTR"
   2  FROM dual;
 
@@ -334,9 +333,54 @@ TESTDB>SELECT 'A-B-C-D' , INSTR('A-B-C-D', '-',1,3) "INSTR"
 -------------- ----------
 A-B-C-D                 6
 
+ - 주어진 문자열에서 세 번째 문자를 기준으로 첫번째 '-(마이너스)' 가 나오는 위치의 값을 출력
 TESTDB>SELECT 'A-B-C-D' , INSTR('A-B-C-D','-',3,1) "INSTR"
   2  FROM dual;
 
 'A-B-C-D'           INSTR
 -------------- ----------
 A-B-C-D                 4
+
+ - 주어진 문자열에서 오른쪽에서 첫 번째 문자를 기준으로 세번째 '-(마이너스)'가 나오는 위치의 값을 출력
+TESTDB>SELECT 'A-B-C-D', INSTR('A-B-C-D', '-', -1,3) "INSTR"
+  2  FROM dual;
+
+'A-B-C-D'           INSTR
+-------------- ----------
+A-B-C-D                 2
+
+TESTDB>SELECT 'A-B-C-D' , INSTR('A-B-C-D','-', -6,2) "INSTR"
+  2  FROM dual;
+
+'A-B-C-D'           INSTR
+-------------- ----------
+A-B-C-D                 0
+
+- Student 테이블의 tel 컬럼을 사용하여 1 전공번호(deptno1)가 201번인 학생의 이름과 전화번호,')'가 나오는 위치를 출력하세요
+TESTDB>SELECT name, tel, INSTR(tel, ')')
+  2  FROM student
+  3  WHERE deptno1 = 201;
+
+NAME                                                         TEL                            INSTR(TEL,')')
+------------------------------------------------------------ ------------------------------ --------------
+Demi Moore                                                   02)6255-9875                                3
+Macaulay Culkin                                              02)312-9838                                 3
+Wesley Snipes                                                053)736-4981                                4
+Steve Martin                                                 02)6175-3945                                3
+Sean Connery                                                 02)381-5440                                 3
+Christian Slater                                             031)345-5677                                4
+
+6 rows selected.
+
+ - Student 테이블에서 1 전공이 101번인 학생들의 tel 컬럼을 조회하여 3이 첫번째로 나오는 위치를 이름과 전화번호와 함께 출력하세요.
+ TESTDB>SELECT name, tel, INSTR(tel,'3')
+  2  FROM student
+  3  WHERE deptno1 = 101;
+
+NAME                                                         TEL                            INSTR(TEL,'3')
+------------------------------------------------------------ ------------------------------ --------------
+James Seo                                                    055)381-2158                                5
+Billy Crystal                                                055)333-6328                                5
+Richard Dreyfus                                              02)6788-4861                                0
+Danny Devito                                                 055)278-3649                                9
+ 
