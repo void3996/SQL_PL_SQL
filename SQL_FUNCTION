@@ -384,3 +384,21 @@ Billy Crystal                                                055)333-6328       
 Richard Dreyfus                                              02)6788-4861                                0
 Danny Devito                                                 055)278-3649                                9
  
+1.9 LPAD() 함수
+ - LAPD('문자열' 또는 컬럼명,자릿수, '채울 문자')
+ 
+  - student 테이블에서 1전공이 201번인 학과 학생들의 id를 총 10자리로 출력하되 왼쪽 빈자르는 '*' 기호로 채우기
+ TESTDB>SELECT name, id, LPAD(id,10,'*')
+  2  FROM student
+  3  WHERE deptno1 = 201;
+
+NAME                 ID         LPAD(ID,10,'*')
+-------------------- ---------- --------------------
+Demi Moore           Moore      *****Moore
+Macaulay Culkin      Culkin     ****Culkin
+Wesley Snipes        Snipes     ****Snipes
+Steve Martin         Martin     ****Martin
+Sean Connery         Connery    ***Connery
+Christian Slater     Slater     ****Slater
+
+6 rows selected.
