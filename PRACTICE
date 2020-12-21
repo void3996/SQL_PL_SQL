@@ -106,3 +106,16 @@ LPAD
 1234CLARK
 12345KING
 123MILLER
+
+practice 
+emp 테이블에서 deptno가 10번인 사원들의 이름을 총 9자리로 출력하되 오른쪽 빈자리에는 해당 자릿수에 해당하는 숫자가 출력되게 하자
+
+TESTDB>SELECT RPAD(ename, 9, SUBSTRB('123456789', LENGTHB(ename)+1)) "RPAD"
+  2  FROM emp
+  3  WHERE deptno = 10;
+
+RPAD
+------------------------------------------------------------------------
+CLARK6789
+KING56789
+MILLER789
