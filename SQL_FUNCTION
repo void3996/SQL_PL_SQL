@@ -406,4 +406,14 @@ Christian Slater     Slater     ****Slater
 1.10 RPAD() 함수
  - RPAD('문자열' 또는 컬럼명, 자릿수, '채울 문자'
  
+ - emp 테이브렝서 deptno가 10번인 사원들의 ename을 10자리로 출력하되 오른쪽 빈자리에는 '~'로 채우기
+ TESTDB>SELECT RPAD(ename, 10, '~') "RPAD"
+  2  FROM emp
+  3  WHERE deptno = 10;
+
+RPAD
+--------------------------------------------------------------------------------
+CLARK~~~~~
+KING~~~~~~
+MILLER~~~~
  
