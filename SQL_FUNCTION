@@ -402,3 +402,8 @@ Sean Connery         Connery    ***Connery
 Christian Slater     Slater     ****Slater
 
 6 rows selected.
+
+1.10 RPAD() 함수
+ - RPAD('문자열' 또는 컬럼명, 자릿수, '채울 문자'
+ 
+ 
