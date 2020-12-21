@@ -93,3 +93,16 @@ Sean Connery         02)381-5440                    02
 Christian Slater     031)345-5677                   031
 
 6 rows selected.
+
+practice 5
+emp 테이블을 사용하여 deptno가 10번인 사원들의 사원이름을 총 9바이트로 출력하되 빈자리에는 해당 자리의 숫자로 채우자
+
+TESTDB>SELECT LPAD(ename, 9, '123456789')
+  2  FROM emp
+  3  WHERE deptno = 10;
+
+LPAD(ENAME,9,'123456789')
+------------------------------------------------------------------------
+1234CLARK
+12345KING
+123MILLER
