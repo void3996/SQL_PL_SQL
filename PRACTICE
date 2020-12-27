@@ -107,7 +107,7 @@ LPAD
 12345KING
 123MILLER
 
-practice 
+practice 6
 emp 테이블에서 deptno가 10번인 사원들의 이름을 총 9자리로 출력하되 오른쪽 빈자리에는 해당 자릿수에 해당하는 숫자가 출력되게 하자
 
 TESTDB>SELECT RPAD(ename, 9, SUBSTRB('123456789', LENGTHB(ename)+1)) "RPAD"
@@ -119,3 +119,55 @@ RPAD
 CLARK6789
 KING56789
 MILLER789
+
+practice 7
+emp 테이블에서 20번 부서에 소속된 직원들의 이름과 3~4번째 글자만 '-'으로 변경해서 출력
+
+TESTDB>SELECT ename, REPLACE(ename, SUBSTR(ename, 3,2), '--') "REPLACE"
+  2  FROM emp
+  3  WHERE deptno = 20;
+
+ENAME                REPLACE
+-------------------- ----------------------------------------
+SMITH                SM--H
+JONES                JO--S
+SCOTT                SC--T
+FORD                 FO--
+
+practice 8
+Student 테이블에서 1전공(deptno1)이 101번인 학생들의 이름과 주민등록번호를 출력하되 주민등록번호의 뒤 7자리는 '-'과 '/'로 표시되게 출력
+
+TESTDB>SELECT name, jumin, REPLACE(jumin, SUBSTR(jumin, 7, 7), '-/-/-/-' ) "REPLACE"
+  2  FROM student
+  3  WHERE deptno1 = 101;
+
+NAME                 JUMIN                REPLACE
+-------------------- -------------------- --------------------
+James Seo            7510231901813        751023-/-/-/-
+Billy Crystal        7601232186327        760123-/-/-/-
+Richard Dreyfus      7711291186223        771129-/-/-/-
+Danny Devito         7808192157498        780819-/-/-/-
+
+practice 9
+Student 테이블에서 1전공이 102번인 학생들의 이름과 전화번호, 전화번호에서 국번 부분만 '*' 처리하여 출력. 모든 국번은 3자리로 간주
+TESTDB>SELECT name, tel, REPLACE(tel, SUBSTR(tel, 5, 3), '***') "REPLACE"
+  2  FROM student
+  3  WHERE deptno1 = 102;
+
+NAME                 TEL                            REPLACE
+-------------------- ------------------------------ --------------------
+Rene Russo           051)426-1700                   051)***-1700
+Nicholas Cage        051)418-9627                   051)***-9627
+Tim Robbins          055)488-2998                   055)***-2998
+Charlie Sheen        055)423-9870                   055)***-9870
+
+TESTDB>SELECT   name, tel, REPLACE(tel, SUBSTR(tel, INSTR(tel,'-')+1), '****') "REPLACE"
+  2  FROM student
+  3  WHERE deptno1 = 101;
+
+NAME                 TEL                            REPLACE
+-------------------- ------------------------------ --------------------
+James Seo            055)381-2158                   055)381-****
+Billy Crystal        055)333-6328                   055)333-****
+Richard Dreyfus      02)6788-4861                   02)6788-****
+Danny Devito         055)278-3649                   055)278-****
