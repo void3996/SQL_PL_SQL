@@ -499,3 +499,144 @@ TESTDB>SELECT TRUNC(987.654,2) "TRUNC1",
     TRUNC1     TRUNC2     TRUNC3
 ---------- ---------- ----------
     987.65        987        980    
+
+2.3 MOD(), CEIL(), FLOOR() 함수
+
+TESTDB>SELECT MOD(121, 10) "MOD",
+  2     CEIL(123.45) "CEIL",
+  3     FLOOR(123.45) "FLOOR"
+  4  FROM dual;
+
+       MOD       CEIL      FLOOR
+---------- ---------- ----------
+         1        124        123
+         
+ - emp 테이블의 13건의 데이터를 출력하되 3줄씩 나누어서 한 조로 만드는 예
+ 
+ TESTDB>SELECT rownum "ROWNO", CEIL(rownum/3) "TEAMNO", ename
+  2  FROM emp;
+
+     ROWNO     TEAMNO ENAME
+---------- ---------- --------------------
+         1          1 SMITH
+         2          1 ALLEN
+         3          1 WARD
+         4          2 JONES
+         5          2 MARTIN
+         6          2 BLAKE
+         7          3 CLARK
+         8          3 SCOTT
+         9          3 KING
+        10          4 TURNER
+        11          4 JAMES
+        12          4 FORD
+        13          5 MILLER
+
+13 rows selected.
+
+ rownum은 출력 될 때 줄 번호. 줄 번호/3 해서 나온 값과 가장 가까운 큰 정수를 조 번호로 출력한 것
+ 
+2.4 POWER() 함수
+ - POWER(숫자1, 숫자2)
+ 
+ TESTDB>SELECT POWER(2,3)
+  2  FROM dual;
+
+POWER(2,3)
+----------
+         8
+         
+3. 날짜 관련 함수들
+
+함수명    의미                   결과
+SYSDATE 시스템의 현재 날짜와 시간 날짜
+MONTHS_BETWEEN 두 날짜 사이의 개월수 숫자
+ADD_MONTHS 주어진 날짜에 개월을 더함 날짜
+NEXT_DAY 주어진 날짜를 기준으로 돌아오는 날짜 출력 날짜
+LAST_DAY 주어진 날짜가 속한 달의 마지막 날짜 출력  날짜
+ROUND 주어진 날짜를 반올림 날짜
+TRUNC 주어진 날짜를 버림 날짜
+
+3.1 SYSDATE 함수
+
+TESTDB>SELECT SYSDATE FROM dual;
+
+SYSDATE
+--------
+21/01/17
+
+TESTDB>ALTER SESSION SET NLS_DATE_FORMAT = 'RRRR-MM-DD:HH24:MI:SS';
+
+Session altered.
+
+TESTDB>SELECT SYSDATE FROM dual;
+
+SYSDATE
+-------------------
+2021-01-17:21:18:43
+
+3.2 MONTHS_BETWEEN 함수
+TESTDB>SELECT MONTHS_BETWEEN('14/09/30','14/08/31')
+  2  FROM dual;
+
+MONTHS_BETWEEN('14/09/30','14/08/31')
+-------------------------------------
+                                    1
+                                    
+TESTDB>SELECT MONTHS_BETWEEN('21/02/05','21/01/17')
+  2  FROM dual;
+
+MONTHS_BETWEEN('21/02/05','21/01/17')
+-------------------------------------
+                           .612903226
+                           
+ - 두 날짜 중 큰 날짜를 먼저 써야 양수가 나옵니다.                            
+ 
+ TESTDB>SELECT MONTHS_BETWEEN('21/01/17','21/02/05')
+  2  FROM dual;
+
+MONTHS_BETWEEN('21/01/17','21/02/05')
+-------------------------------------
+                           -.61290323
+                           
+ - 두 날짜가 같은 달에 속해 있으면 특정 규칙으로 계산된 값이 나옵니다.(같은 1개월이라도 29일,30일,31일의 경우마다 모두 결과값이 다름)
+ 
+ TESTDB>SELECT MONTHS_BETWEEN('12/02/29','12/02/01')
+  2  FROM dual;
+
+ - 1개월이 29일(윤달)인 2012년 2월을 조회
+MONTHS_BETWEEN('12/02/29','12/02/01')
+-------------------------------------
+                           .903225806
+ 
+ - 1개월이 30일인 2014년 4월을 조회
+TESTDB>SELECT MONTHS_BETWEEN('14/04/30','14/04/01')
+  2  FROM dual;
+
+MONTHS_BETWEEN('14/04/30','14/04/01')
+-------------------------------------
+                           .935483871
+ 
+ - 1개월이 31일인 2014년 5월을 조회
+ TESTDB>SELECT MONTHS_BETWEEN('14/05/31', '14/05/01')
+  2  FROM dual;
+
+MONTHS_BETWEEN('14/05/31','14/05/01')
+-------------------------------------
+                           .967741935
+
+ -  2월 28일까지 있는 달과 29일(윤일)까지 있는 달은 구분하지 못함
+ 
+ TESTDB>SELECT MONTHS_BETWEEN('12/03/01', '12/02/28')
+  2  FROM dual;
+
+MONTHS_BETWEEN('12/03/01','12/02/28')
+-------------------------------------
+                           .129032258
+
+TESTDB>select months_between('14/03/01','14/02/28')
+  2  FROM dual;
+
+MONTHS_BETWEEN('14/03/01','14/02/28')
+-------------------------------------
+                           .129032258
