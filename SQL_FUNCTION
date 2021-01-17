@@ -467,3 +467,35 @@ ENAME                REPLACE
 CLARK                **ARK
 KING                 **NG
 MILLER               **LLER
+
+2. 숫자 관련 함수
+ROUND 주어진 숫자를 반올림한 후 출력함 ROUND(12.345,2) → 12.35
+TRUNC 주어진 숫자를 버림한 후 출력함 TRUNC(12.345,2) → 12.34
+MOD 주어진 숫자를 나눈 후 나머지 값을 출력함 MOD(12,10) → 2
+CEIL 주어진 숫자와 가장 근접한 큰 정수를 출력함 CEIL(12.345) → 13F
+FLOOR 주어진 숫자와 가장 근접한 작은 정수를 출력함 FLOOR(12.345) → 12
+POWER 주어진 숫자 1의 숫자 2승을 출력함 POWER(3,2) → 9
+
+2.1 ROUND() 함수
+ - ROUND(숫자, 출력을 원하는 자릿수)
+ 
+ TESTDB>SELECT ROUND(987.654,2) "ROUND1",
+  2     ROUND(987.654,0) "ROUND2",
+  3     ROUND(987.654,-1) "ROUND3"
+  4  FROM DUAL;
+
+    ROUND1     ROUND2     ROUND3
+---------- ---------- ----------
+    987.65        988        990
+    
+2.2 TRUNC() 함수
+ - TRUNC(숫자, 원하는 자릿수)
+     
+TESTDB>SELECT TRUNC(987.654,2) "TRUNC1",
+  2     TRUNC(987.654,0) "TRUNC2",
+  3     TRUNC(987.654,-1) "TRUNC3"
+  4  FROM DUAL;
+
+    TRUNC1     TRUNC2     TRUNC3
+---------- ---------- ----------
+    987.65        987        980    
