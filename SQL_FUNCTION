@@ -640,3 +640,47 @@ TESTDB>select months_between('14/03/01','14/02/28')
 MONTHS_BETWEEN('14/03/01','14/02/28')
 -------------------------------------
                            .129032258
+
+3.3 ADD_MONTHS() 함수
+ 
+  - 주어진 날짜에 숫자만큼의 달을 추가하는 함수
+  
+  TESTDB>SELECT SYSDATE, ADD_MONTHS(SYSDATE,1)
+  2  FROM dual;
+
+SYSDATE  ADD_MONT
+-------- --------
+21/02/25 21/03/25
+
+3.4 NEXT_DAY() 함수
+ - 주어진 날짜를 기준으로 돌아오는 가장 최근 요일의 날짜를 반환해주는 함수
+ 
+TESTDB>SELECT SYSDATE, NEXT_DAY(SYSDATE,'mon') from daul;
+SELECT SYSDATE, NEXT_DAY(SYSDATE,'mon') from daul
+                                             *
+ERROR at line 1:
+ORA-00942: table or view does not exist
+
+3.5 LAST_DAY() 함수
+ - 주어진 날짜가 속한 달의 가장 마지막 날을 출력해주는 함수
+  TESTDB>SELECT SYSDATE, LAST_DAY(SYSDATE), LAST_DAY('14/05/01')
+  2  FROM dual;
+
+SYSDATE  LAST_DAY LAST_DAY
+-------- -------- --------
+21/02/25 21/02/28 14/05/31
+
+3.6 날짜의 ROUND(), TRUNC() 함수
+ - 날짜의 ROUND()는 하루의 반에 해당되는 시간은 낮(정오) 12:00:00인데, 주어진 날짜가 이 시간을 넘어설 경우에 다음 날짜로 출력하고 이 시간이 안 될 경우에는 당일로 출력한다
+ - 날짜의 TRUNC 함수는 무조건 당일로 출력
+ 
+ TESTDB>SELECT SYSDATE, ROUND(SYSDATE),TRUNC(SYSDATE)
+  2  FROM dual;
+
+SYSDATE             ROUND(SYSDATE)      TRUNC(SYSDATE)
+------------------- ------------------- -------------------
+2021-02-25:22:13:13 2021-02-26:00:00:00 2021-02-25:00:00:00
+
+4. 형 변환 함수
+
+CHAR(n` )
