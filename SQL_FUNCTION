@@ -696,3 +696,27 @@ BFILE 외부 파일에 저장된 데이터로 최대 4GB 까지 저장 가능
 
 4.1 묵시적 형 변환 명시적 형 변환
 
+TESTDB>SELECT 2+'2' FROM dual;
+
+     2+'2'
+----------
+         4
+         
+4.2 TO_CHAR 함수(날짜-> 문자로 형 변환하기
+ - TO_CHAR(원래 날짜, '원하는 모양')
+ 
+TESTDB>SELECT SYSDATE, TO_CHAR(SYSDATE, 'YYYY') "YYYY",
+  2  TO_CHAR(SYSDATE, 'RRRR') "RRRR",
+  3  TO_CHAR(SYSDATE, 'YY') "YY",
+  4  TO_CHAR(SYSDATE, 'RR') "RR",
+  5  TO_CHAR(SYSDATE, 'YEAR') "YEAR"
+  6  FROM dual;
+
+SYSDATE  YYYY     RRRR     YY   RR
+-------- -------- -------- ---- ----
+YEAR
+--------------------------------------------------------------------------------
+21/03/17 2021     2021     21   21
+TWENTY TWENTY-ONE
+
+ 
